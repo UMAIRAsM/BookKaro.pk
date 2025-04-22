@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import AuthPage from "./pages/AuthPage"; // Handles Login and Signup
 import "./index.css";
+import Footer from './components/Footer';
 
 function App() {
   const [isSignup, setIsSignup] = useState(false);
@@ -19,6 +20,7 @@ function App() {
             element={<AuthPage isSignup={isSignup} setIsSignup={setIsSignup} />}
           />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
