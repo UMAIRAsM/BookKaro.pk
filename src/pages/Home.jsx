@@ -1,5 +1,6 @@
 import React from 'react';
 import homeImage1 from '../assets/home_image1.jpg';
+import mobile from '../assets/mobile.png';
 import Slideshow from "../components/Slideshow";
 
 
@@ -33,17 +34,28 @@ const Home = () => {
 <Slideshow />
     </div>
 
-<img src={homeImage1} alt="Home Image" className="w-full h-auto" />
 
 
 
 
 
-    <div>
-      <h1 className="text-3xl font-bold text-blue-700 mb-4">Welcome to BookKaroPK</h1>
-      <p className="text-gray-700">Discover and book your favorite events with ease.</p>
+    <div className="flex flex-col md:flex-row items-center justify-between w-full h-[60vh] px-8 py-12 ">
+  {/* Left Content */}
+  <div className="w-full md:w-1/2 mb-6 md:mb-0 text-left">
+    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#CE1B19]">
+      Experience Booking Like Never Before
+    </h2>
+    <p className="text-lg md:text-xl text-gray-700">
+      BookKaro.pk brings you a seamless way to book your favorite events, concerts, and movies — all in one place. Enjoy special discounts, mobile access, and instant confirmations.
+    </p>
+  </div>
 
-    </div>
+  {/* Right Image */}
+  <div className="w-full md:w-1/2 flex justify-center">
+  <img src={mobile} alt="Mobile App" className="w-[450px] md:w-[600px]" />
+</div>
+
+</div>
    
 
     </>
