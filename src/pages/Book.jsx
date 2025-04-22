@@ -97,35 +97,9 @@ const Book = () => {
               <p className="text-sm mb-2">📍 {event.location}</p>
             </div>
 
-            {/* Ticket Selection */}
-            <div className="flex items-center mb-6">
-              <label className="text-lg text-gray-700 font-medium mr-4" htmlFor="tickets">
-                How many tickets?
-              </label>
-              <input
-                type="number"
-                id="tickets"
-                value={tickets}
-                onChange={handleTicketsChange}
-                min="1"
-                className="w-20 p-2 border border-gray-300 rounded-lg text-center"
-              />
-            </div>
+           
 
-            {/* Promo Code Input */}
-            <div className="flex items-center mb-6">
-              <label className="text-lg text-gray-700 font-medium mr-4" htmlFor="promoCode">
-                Have a Promo Code?
-              </label>
-              <input
-                type="text"
-                id="promoCode"
-                value={promoCode}
-                onChange={handlePromoCodeChange}
-                className="w-64 p-2 border border-gray-300 rounded-lg"
-                placeholder="Enter promo code"
-              />
-            </div>
+           
 
             {/* Buttons */}
             <div className="space-y-4">

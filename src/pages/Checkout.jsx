@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import event1 from '../assets/event1.jpg';
 import event2 from '../assets/event2.jpg';
@@ -56,6 +56,15 @@ const Checkout = () => {
   const [wishlistAdded, setWishlistAdded] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('Credit Card');
   const [showBill, setShowBill] = useState(false); // Flag to toggle the bill view
+
+  const billRef = useRef(null); // Create a ref for the bill section
+
+  useEffect(() => {
+    if (showBill && billRef.current) {
+      // Scroll to the bill section when it's shown
+      billRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [showBill]);
 
   const handleTicketsChange = (e) => {
     setTickets(e.target.value);
@@ -175,7 +184,7 @@ const Checkout = () => {
 
       {/* Bill */}
       {showBill && (
-        <div className="container mx-auto px-6 py-12">
+        <div ref={billRef} className="container mx-auto px-6 py-12">
           <div className="bg-white p-8 rounded-lg shadow-xl border border-gray-300">
             <h1 className="text-3xl font-bold text-center text-[#CE1B19] mb-8">Ticket Booking Bill </h1>
             <div className="grid grid-cols-2 gap-4 mb-6">
@@ -206,11 +215,10 @@ const Checkout = () => {
               <div className="flex justify-between">
                 <span className="text-gray-700 font-medium">Payment Method:</span>
                 <span className="text-gray-600">{paymentMethod}</span>
-               
               </div>
-               <div className="flex justify-end">
-            <span className="text-gray-600">(Show this at the entrance of the venue)</span>
-            </div>
+              <div className="flex justify-end">
+                <span className="text-gray-600">(Show this at the entrance of the venue)</span>
+              </div>
             </div>
           </div>
         </div>
