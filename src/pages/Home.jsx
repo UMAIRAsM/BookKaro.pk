@@ -50,7 +50,7 @@ const Home = () => {
     </p>
   </div>
 
-  {/* Right Image */}
+  {/* Right Imageeeeee */}
   <div className="w-full md:w-1/2 flex justify-center">
   <img src={mobile} alt="Mobile App" className="w-[450px] md:w-[600px]" />
 </div>
