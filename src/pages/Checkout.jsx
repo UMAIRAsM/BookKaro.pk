@@ -56,6 +56,7 @@ const Checkout = () => {
   const [wishlistAdded, setWishlistAdded] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('Credit Card');
   const [showBill, setShowBill] = useState(false); // Flag to toggle the bill view
+  const [bookingStatus, setBookingStatus] = useState(''); // New state for booking status
 
   const billRef = useRef(null); // Create a ref for the bill section
 
@@ -83,8 +84,14 @@ const Checkout = () => {
     setPaymentMethod(e.target.value);
   };
 
+  const handleReserve = () => {
+    setBookingStatus('Reserved'); // Set the status to Reserved
+    setShowBill(true); // Show the bill on reservation
+  };
+
   const handleConfirmBooking = () => {
-    setShowBill(true); // Display the bill when the booking is confirmed
+    setBookingStatus('Paid'); // Set the status to Paid
+    setShowBill(true); // Show the bill on confirmation
   };
 
   return (
@@ -172,6 +179,12 @@ const Checkout = () => {
                 Confirm Booking
               </button>
               <button
+                onClick={handleReserve}
+                className="w-full py-2 text-[#CE1B19] bg-transparent border-2 border-[#CE1B19] hover:bg-[#CE1B19] hover:text-white rounded-lg shadow-md transition-all duration-300"
+              >
+                Reserve
+              </button>
+              <button
                 onClick={handleAddToWishlist}
                 className="w-full py-2 text-[#CE1B19] bg-transparent border-2 border-[#CE1B19] hover:bg-[#CE1B19] hover:text-white rounded-lg shadow-md transition-all duration-300"
               >
@@ -215,6 +228,10 @@ const Checkout = () => {
               <div className="flex justify-between">
                 <span className="text-gray-700 font-medium">Payment Method:</span>
                 <span className="text-gray-600">{paymentMethod}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-700 font-medium">Status:</span>
+                <span className="text-gray-600">{bookingStatus}</span>
               </div>
               <div className="flex justify-end">
                 <span className="text-gray-600">(Show this at the entrance of the venue)</span>
