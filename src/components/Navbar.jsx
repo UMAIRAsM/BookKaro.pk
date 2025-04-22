@@ -10,23 +10,24 @@ const Navbar = ({ setIsSignup }) => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleDropdown = () => setDropdown(!dropdown);
-  const closeMenu = () => setMenuOpen(false);
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setDropdown(false);
+  };
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
-    setDropdown(false);
     closeMenu();
   };
 
   const baseLinkClasses2 = "font-bold text-black border-1 border-black rounded-2xl px-3 py-2 transition duration-200 hover:text-orange-500 hover:bg-white hover:rounded-2xl hover:shadow-lg hover:border-1 ";
   const baseLinkClasses1 = "font-bold text-black px-3 py-2 transition duration-200 hover:text-orange-500 hover:bg-white hover:rounded-2xl hover:shadow-lg hover:border-2 hover:border-none";
-  const baseLinkClasses = " font-bold text-black px-3 py-2 transition duration-200 hover:text-orange-500 hover:bg-white hover:rounded-2xl hover:shadow-lg hover:border-2 hover:border-none";
+  const baseLinkClasses = "font-bold text-black px-3 py-2 transition duration-200 hover:text-orange-500 hover:bg-white hover:rounded-2xl hover:shadow-lg hover:border-2 hover:border-none";
   const activeLinkClasses = "border-2 border-none rounded-2xl shadow-lg bg-white";
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-[#FFA515] shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between relative">
-
         <Link to="/" className="flex items-center space-x-2">
           <div className="absolute top-0 left-0 bottom-0 bg-amber-50 rounded-br-[40px] p-1 flex items-center">
             <img src={logo} alt="BookKaroPK" className="h-10 w-auto" />
@@ -104,6 +105,16 @@ const Navbar = ({ setIsSignup }) => {
               Wishlist
             </Link>
           </li>
+
+          <li>
+            <Link 
+              to="/bookings" 
+              onClick={() => handleLinkClick('bookings')}
+              className={`${baseLinkClasses} ${activeLink === 'bookings' ? activeLinkClasses : ''}`}
+            >
+              My Bookings
+            </Link>
+          </li>
         </ul>
 
         <div className="hidden lg:block ml-4 flex items-center space-x-2">
@@ -122,6 +133,7 @@ const Navbar = ({ setIsSignup }) => {
         </div>
       </div>
 
+      {/* Mobile menu */}
       {menuOpen && (
         <div className="lg:hidden px-4 pb-4 space-y-3 mt-1">
           <div>
@@ -140,33 +152,32 @@ const Navbar = ({ setIsSignup }) => {
             Home
           </Link>
 
-          <div className="relative" onClick={toggleDropdown}>
-            <Link 
-              to="/events" 
-              onClick={() => handleLinkClick('events')}
-              className={`${baseLinkClasses1} ${activeLink === 'events' ? activeLinkClasses : ''} block`}
+          <div className="relative">
+            <button
+              onClick={toggleDropdown}
+              className={`${baseLinkClasses1} ${activeLink === 'events' ? activeLinkClasses : ''} block w-full text-left`}
             >
               Events
-            </Link>
+            </button>
             {dropdown && (
-              <ul className="pl-3 space-y-1">
+              <ul className="pl-3 space-y-1 mt-1">
                 <li>
-                  <HashLink smooth to="/events#concerts" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                  <HashLink smooth to="/events#concerts" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer block">
                     🎤 Concerts
                   </HashLink>
                 </li>
                 <li>
-                  <HashLink smooth to="/events#movies" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                  <HashLink smooth to="/events#movies" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer block">
                     🎬 Movies
                   </HashLink>
                 </li>
                 <li>
-                  <HashLink smooth to="/events#sports" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                  <HashLink smooth to="/events#sports" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer block">
                     🏀 Sports
                   </HashLink>
                 </li>
                 <li>
-                  <HashLink smooth to="/events#theatre" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                  <HashLink smooth to="/events#theatre" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer block">
                     🎭 Theatre
                   </HashLink>
                 </li>
@@ -188,6 +199,14 @@ const Navbar = ({ setIsSignup }) => {
             className={`${baseLinkClasses} ${activeLink === 'wishlist' ? activeLinkClasses : ''} block`}
           >
             Wishlist
+          </Link>
+
+          <Link 
+            to="/bookings" 
+            onClick={() => handleLinkClick('bookings')} 
+            className={`${baseLinkClasses} ${activeLink === 'bookings' ? activeLinkClasses : ''} block`}
+          >
+            My Bookings
           </Link>
 
           <Link 

@@ -10,6 +10,7 @@ import Checkout from './pages/Checkout';
 import Book from './pages/Book';
 import PromoCode from './pages/PromoCode'; 
 import Wishlist from './pages/Wishlist'; 
+import Bookings from './pages/MyBookings';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/checkout/:eventId" element={<Checkout />} />
           <Route path="/promos" element={<PromoCode />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/bookings" element={<Bookings />} />
         </Routes>
         <Footer />
       </div>

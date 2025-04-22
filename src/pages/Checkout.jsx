@@ -55,6 +55,7 @@ const Checkout = () => {
   const [totalPrice, setTotalPrice] = useState(100); // Default price per ticket
   const [wishlistAdded, setWishlistAdded] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('Credit Card');
+  const [showBill, setShowBill] = useState(false); // Flag to toggle the bill view
 
   const handleTicketsChange = (e) => {
     setTickets(e.target.value);
@@ -74,8 +75,7 @@ const Checkout = () => {
   };
 
   const handleConfirmBooking = () => {
-    // Implement your payment logic or other confirmation logic here
-    alert('Booking Confirmed! Thank you for your purchase.');
+    setShowBill(true); // Display the bill when the booking is confirmed
   };
 
   return (
@@ -172,6 +172,49 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+
+      {/* Bill */}
+      {showBill && (
+        <div className="container mx-auto px-6 py-12">
+          <div className="bg-white p-8 rounded-lg shadow-xl border border-gray-300">
+            <h1 className="text-3xl font-bold text-center text-[#CE1B19] mb-8">Ticket Booking Bill </h1>
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="flex flex-col">
+                <span className="text-gray-700 font-medium">Event:</span>
+                <span className="text-gray-600">{event.title}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-gray-700 font-medium">Date:</span>
+                <span className="text-gray-600">{event.date}</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="flex flex-col">
+                <span className="text-gray-700 font-medium">Location:</span>
+                <span className="text-gray-600">{event.location}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-gray-700 font-medium">Tickets:</span>
+                <span className="text-gray-600">{tickets}</span>
+              </div>
+            </div>
+            <div className="flex justify-between mb-6">
+              <span className="text-gray-700 font-medium">Total Price:</span>
+              <span className="text-gray-600">${totalPrice}</span>
+            </div>
+            <div className="border-t border-gray-300 pt-4 mt-6">
+              <div className="flex justify-between">
+                <span className="text-gray-700 font-medium">Payment Method:</span>
+                <span className="text-gray-600">{paymentMethod}</span>
+               
+              </div>
+               <div className="flex justify-end">
+            <span className="text-gray-600">(Show this at the entrance of the venue)</span>
+            </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

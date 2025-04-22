@@ -88,7 +88,7 @@ const EventPage = () => {
             {sampleEvents.map((event, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1 group"
+                className="bg-white hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1 group"
               >
                 <div className="relative">
                   <img
