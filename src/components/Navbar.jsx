@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import logo from '../assets/logo.png';
 
 const Navbar = ({ setIsSignup }) => {
@@ -20,7 +21,7 @@ const Navbar = ({ setIsSignup }) => {
   const baseLinkClasses2 = "font-bold text-black border-1 border-black rounded-2xl px-3 py-2 transition duration-200 hover:text-orange-500 hover:bg-white hover:rounded-2xl hover:shadow-lg hover:border-1 ";
   const baseLinkClasses1 = "font-bold text-black px-3 py-2 transition duration-200 hover:text-orange-500 hover:bg-white hover:rounded-2xl hover:shadow-lg hover:border-2 hover:border-none";
   const baseLinkClasses = " font-bold text-black px-3 py-2 transition duration-200 hover:text-orange-500 hover:bg-white hover:rounded-2xl hover:shadow-lg hover:border-2 hover:border-none";
-  const activeLinkClasses = "border-2 border-none  rounded-2xl shadow-lg bg-white";
+  const activeLinkClasses = "border-2 border-none rounded-2xl shadow-lg bg-white";
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-[#FFA515] shadow-md z-50">
@@ -52,22 +53,34 @@ const Navbar = ({ setIsSignup }) => {
 
           <li className="relative" onMouseEnter={() => setDropdown(true)} onMouseLeave={() => setDropdown(false)}>
             <Link
-              to="#"
-              onClick={(e) => {
-                e.preventDefault();
-                handleLinkClick('events');
-                toggleDropdown();
-              }}
+              to="/events"
+              onClick={() => handleLinkClick('events')}
               className={`${baseLinkClasses1} ${activeLink === 'events' ? activeLinkClasses : ''}`}
             >
               Events
             </Link>
             {dropdown && (
               <ul className="absolute top-10 left-0 bg-white shadow-md rounded-md py-2 px-4 w-48">
-                <li className="text-black hover:text-orange-500 cursor-pointer">🎤 Concerts</li>
-                <li className="text-black hover:text-orange-500 cursor-pointer">🎬 Movies</li>
-                <li className="text-black hover:text-orange-500 cursor-pointer">🏀 Sports</li>
-                <li className="text-black hover:text-orange-500 cursor-pointer">🎭 Theatre</li>
+                <li>
+                  <HashLink smooth to="/events#concerts" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                    🎤 Concerts
+                  </HashLink>
+                </li>
+                <li>
+                  <HashLink smooth to="/events#movies" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                    🎬 Movies
+                  </HashLink>
+                </li>
+                <li>
+                  <HashLink smooth to="/events#sports" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                    🏀 Sports
+                  </HashLink>
+                </li>
+                <li>
+                  <HashLink smooth to="/events#theatre" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                    🎭 Theatre
+                  </HashLink>
+                </li>
               </ul>
             )}
           </li>
@@ -127,24 +140,36 @@ const Navbar = ({ setIsSignup }) => {
             Home
           </Link>
 
-          <div className="relative" onMouseEnter={() => setDropdown(true)} onMouseLeave={() => setDropdown(false)}>
+          <div className="relative" onClick={toggleDropdown}>
             <Link 
-              to="#" 
-              onClick={(e) => {
-                e.preventDefault();
-                handleLinkClick('events');
-                toggleDropdown();
-              }}
+              to="/events" 
+              onClick={() => handleLinkClick('events')}
               className={`${baseLinkClasses1} ${activeLink === 'events' ? activeLinkClasses : ''} block`}
             >
               Events
             </Link>
             {dropdown && (
               <ul className="pl-3 space-y-1">
-                <li className="text-black hover:text-orange-500 cursor-pointer">🎤 Concerts</li>
-                <li className="text-black hover:text-orange-500 cursor-pointer">🎬 Movies</li>
-                <li className="text-black hover:text-orange-500 cursor-pointer">🏀 Sports</li>
-                <li className="text-black hover:text-orange-500 cursor-pointer">🎭 Theatre</li>
+                <li>
+                  <HashLink smooth to="/events#concerts" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                    🎤 Concerts
+                  </HashLink>
+                </li>
+                <li>
+                  <HashLink smooth to="/events#movies" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                    🎬 Movies
+                  </HashLink>
+                </li>
+                <li>
+                  <HashLink smooth to="/events#sports" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                    🏀 Sports
+                  </HashLink>
+                </li>
+                <li>
+                  <HashLink smooth to="/events#theatre" onClick={() => handleLinkClick('events')} className="text-black hover:text-orange-500 cursor-pointer">
+                    🎭 Theatre
+                  </HashLink>
+                </li>
               </ul>
             )}
           </div>

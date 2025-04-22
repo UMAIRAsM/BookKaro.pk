@@ -5,6 +5,12 @@ import Home from "./pages/Home";
 import AuthPage from "./pages/AuthPage"; // Handles Login and Signup
 import "./index.css";
 import Footer from './components/Footer';
+import Event from './pages/EventPage'; 
+import Checkout from './pages/Checkout';
+import Book from './pages/Book';
+import PromoCode from './pages/PromoCode'; 
+import Wishlist from './pages/Wishlist'; 
+
 
 function App() {
   const [isSignup, setIsSignup] = useState(false);
@@ -19,6 +25,11 @@ function App() {
             path="/auth"
             element={<AuthPage isSignup={isSignup} setIsSignup={setIsSignup} />}
           />
+          <Route path="/events" element={<Event />} />
+          <Route path="/book/:eventId" element={<Book />} />
+          <Route path="/checkout/:eventId" element={<Checkout />} />
+          <Route path="/promos" element={<PromoCode />} />
+          <Route path="/wishlist" element={<Wishlist />} />
         </Routes>
         <Footer />
       </div>

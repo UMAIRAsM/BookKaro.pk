@@ -48,3 +48,7 @@
 .backface-hidden {
   backface-visibility: hidden;
 }
+
+html {
+  scroll-behavior: smooth;
+}
