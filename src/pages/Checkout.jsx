@@ -6,240 +6,245 @@ import event3 from '../assets/event3.jpeg';
 import event4 from '../assets/event4.jpg';
 import event5 from '../assets/event5.jpg';
 import event6 from '../assets/event6.jpg';
+import seatImg from '../assets/seat.png';
 
 const events = {
-  1: {
-    src: event1,
-    title: 'Monkey Business',
-    date: 'May 20, 2025',
-    location: 'Lahore Arts Council',
-  },
-  2: {
-    src: event2,
-    title: 'Comedy Night',
-    date: 'June 1, 2025',
-    location: 'The Comedy Lounge',
-  },
-  3: {
-    src: event3,
-    title: 'Nori',
-    date: 'June 5, 2025',
-    location: 'Alhamra Hall',
-  },
-  4: {
-    src: event4,
-    title: 'Wibcon 2025',
-    date: 'June 10, 2025',
-    location: 'Expo Center Lahore',
-  },
-  5: {
-    src: event5,
-    title: 'Rafi Peer Carnival',
-    date: 'June 15, 2025',
-    location: 'Peeru’s Café',
-  },
-  6: {
-    src: event6,
-    title: 'Photo Fest',
-    date: 'June 20, 2025',
-    location: 'Lok Virsa Gallery',
-  },
+  1: { src: event1, title: 'Monkey Business', date: 'May 20, 2025', location: 'Lahore Arts Council' },
+  2: { src: event2, title: 'Comedy Night', date: 'June 1, 2025', location: 'The Comedy Lounge' },
+  3: { src: event3, title: 'Nori', date: 'June 5, 2025', location: 'Alhamra Hall' },
+  4: { src: event4, title: 'Wibcon 2025', date: 'June 10, 2025', location: 'Expo Center Lahore' },
+  5: { src: event5, title: 'Rafi Peer Carnival', date: 'June 15, 2025', location: 'Peeru’s Café' },
+  6: { src: event6, title: 'Photo Fest', date: 'June 20, 2025', location: 'Lok Virsa Gallery' },
 };
+
+const generateSeats = () => {
+  const rows = 'ABCDEFGHIJ';
+  const cols = 10;
+  let seats = [];
+  for (let r = 0; r < rows.length; r++) {
+    for (let c = 1; c <= cols; c++) {
+      seats.push(`${rows[r]}${c}`);
+    }
+  }
+  return seats;
+};
+
+const bookedSeats = ['B4', 'B5', 'C3', 'D7', 'E5', 'F6']; // sample booked seats
 
 const Checkout = () => {
   const { eventId } = useParams();
   const event = events[eventId];
+  const allSeats = generateSeats();
 
   const [tickets, setTickets] = useState(1);
   const [promoCode, setPromoCode] = useState('');
-  const [totalPrice, setTotalPrice] = useState(100); // Default price per ticket
-  const [wishlistAdded, setWishlistAdded] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(100);
   const [paymentMethod, setPaymentMethod] = useState('Credit Card');
-  const [showBill, setShowBill] = useState(false); // Flag to toggle the bill view
-  const [bookingStatus, setBookingStatus] = useState(''); // New state for booking status
+  const [showBill, setShowBill] = useState(false);
+  const [bookingStatus, setBookingStatus] = useState('');
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [qrId, setQrId] = useState('');
 
-  const billRef = useRef(null); // Create a ref for the bill section
+  const billRef = useRef(null);
 
   useEffect(() => {
+    setTotalPrice(tickets * 100);
     if (showBill && billRef.current) {
-      // Scroll to the bill section when it's shown
       billRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [showBill]);
+  }, [tickets, showBill]);
 
-  const handleTicketsChange = (e) => {
-    setTickets(e.target.value);
-    setTotalPrice(e.target.value * 100); // Assuming each ticket costs 100
-  };
-
-  const handlePromoCodeChange = (e) => {
-    setPromoCode(e.target.value);
-  };
-
-  const handleAddToWishlist = () => {
-    setWishlistAdded(true);
-  };
-
-  const handlePaymentChange = (e) => {
-    setPaymentMethod(e.target.value);
-  };
-
-  const handleReserve = () => {
-    setBookingStatus('Reserved'); // Set the status to Reserved
-    setShowBill(true); // Show the bill on reservation
+  const handleSeatClick = (seat) => {
+    if (bookedSeats.includes(seat)) return;
+    if (selectedSeats.includes(seat)) {
+      setSelectedSeats(selectedSeats.filter((s) => s !== seat));
+    } else if (selectedSeats.length < tickets) {
+      setSelectedSeats([...selectedSeats, seat]);
+    }
   };
 
   const handleConfirmBooking = () => {
-    setBookingStatus('Paid'); // Set the status to Paid
-    setShowBill(true); // Show the bill on confirmation
+    if (selectedSeats.length !== tickets) {
+      alert('Select the correct number of seats.');
+      return;
+    }
+    const id = `${eventId}-${Date.now()}`;
+    setQrId(id);
+    setBookingStatus('Paid');
+    setShowBill(true);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-orange-100 to-yellow-50 py-10">
-      {/* Event Section */}
       <div className="container mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row items-center justify-between bg-white rounded-xl shadow-xl p-8 md:p-16">
-          {/* Left: Event Image */}
-          <div className="w-full md:w-1/2 mb-8 md:mb-0">
-            <img
-              src={event.src}
-              alt={event.title}
-              className="w-full h-full object-cover rounded-lg shadow-lg"
-            />
-          </div>
+        {/* Event and Form Section */}
+        <div className="bg-white rounded-xl shadow-xl p-8 md:p-16 mb-10">
+          <div className="grid md:grid-cols-2 gap-10">
+            <img src={event.src} alt={event.title} className="w-full h-full object-cover rounded-lg shadow-lg" />
+            <div>
+              <h1 className="text-4xl font-bold text-[#CE1B19] mb-4">{event.title}</h1>
+              <p className="text-lg text-gray-600 mb-6">A night of unforgettable fun and excitement!</p>
+              <p className="text-sm text-gray-600 mb-2">📅 {event.date}</p>
+              <p className="text-sm text-gray-600 mb-6">📍 {event.location}</p>
 
-          {/* Right: Event Details and Checkout Form */}
-          <div className="w-full md:w-1/2 md:pl-12">
-            <h1 className="text-4xl font-bold text-[#CE1B19] mb-4">{event.title}</h1>
-            <p className="text-lg text-gray-600 mb-6">
-              A night of unforgettable fun and excitement!
-            </p>
-            <div className="text-gray-700 mb-6">
-              <p className="text-sm mb-2">📅 {event.date}</p>
-              <p className="text-sm mb-2">📍 {event.location}</p>
-            </div>
-
-            {/* Tickets Section */}
-            <div className="flex items-center mb-6">
-              <label className="text-lg text-gray-700 font-medium mr-4" htmlFor="tickets">
-                How many tickets?
-              </label>
+              <label className="block font-medium mb-1">How many tickets? (Max 10)</label>
               <input
                 type="number"
-                id="tickets"
                 value={tickets}
-                onChange={handleTicketsChange}
-                min="1"
-                className="w-20 p-2 border border-gray-300 rounded-lg text-center"
+                onChange={(e) => {
+                  const val = Math.min(10, Math.max(1, parseInt(e.target.value) || 1));
+                  setTickets(val);
+                }}
+                className="w-24 p-2 border rounded mb-4"
               />
-            </div>
 
-            {/* Promo Code Section */}
-            <div className="flex items-center mb-6">
-              <label className="text-lg text-gray-700 font-medium mr-4" htmlFor="promoCode">
-                Have a Promo Code?
-              </label>
+              <label className="block font-medium mb-1">Promo Code</label>
               <input
                 type="text"
-                id="promoCode"
                 value={promoCode}
-                onChange={handlePromoCodeChange}
-                className="w-64 p-2 border border-gray-300 rounded-lg"
-                placeholder="Enter promo code"
+                onChange={(e) => setPromoCode(e.target.value)}
+                className="w-full p-2 border rounded mb-4"
               />
-            </div>
 
-            {/* Payment Section */}
-            <div className="flex flex-col mb-6">
-              <label className="text-lg text-gray-700 font-medium mb-2">Select Payment Method</label>
+              <label className="block font-medium mb-1">Payment Method</label>
               <select
                 value={paymentMethod}
-                onChange={handlePaymentChange}
-                className="w-full p-2 border border-gray-300 rounded-lg"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+                className="w-full p-2 border rounded mb-4"
               >
-                <option value="Credit Card">Credit Card</option>
-                <option value="PayPal">PayPal</option>
-                <option value="Bank Transfer">Bank Transfer</option>
+                <option>Credit Card</option>
+                <option>PayPal</option>
+                <option>Bank Transfer</option>
               </select>
-            </div>
 
-            {/* Order Summary */}
-            <div className="bg-gray-50 p-4 rounded-lg shadow-lg mb-6">
-              <h2 className="text-xl font-bold text-gray-700 mb-2">Order Summary</h2>
-              <p className="text-gray-600 mb-2">Tickets: {tickets}</p>
-              <p className="text-gray-600 mb-2">Total Price: ${totalPrice}</p>
-            </div>
+              <p className="mb-1">Tickets: {tickets}</p>
+              <p className="mb-4">Total Price: ${totalPrice}</p>
 
-            {/* Action Buttons */}
-            <div className="space-y-4">
-              <button
+             
+            </div>
+          </div>
+        </div>
+
+        {/* Seat Grid */}
+        <div className="bg-yellow-50 px-4 py-10 x shadow-md mb-10">
+          <div className="w-full max-w-4xl h-24 mb-10 relative mx-auto">
+            <div className="absolute inset-0 flex justify-center">
+              <div className="w-3/4 h-24 rounded-b-full bg-gray-300 shadow-inner flex items-end justify-center pb-4">
+                <p className="text-lg font-semibold text-gray-700">SCREEN</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-10 gap-5 justify-center text-sm font-medium text-center">
+            {allSeats.map((seat) => {
+              const isBooked = bookedSeats.includes(seat);
+              const isSelected = selectedSeats.includes(seat);
+
+              return (
+                <div
+                  key={seat}
+                  onClick={() => handleSeatClick(seat)}
+                  className={`relative w-10 h-10 cursor-pointer rounded transition-all
+                    ${isBooked ? "opacity-40 cursor-not-allowed bg-gray-500" : "bg-gray-200"}
+                    ${isSelected ? "bg-orange-300" : ""}
+                  `}
+                  title={`Seat ${seat}`}
+                >
+                  <img src={seatImg} alt={seat} className="w-full h-full object-contain" />
+                  <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-xs">{seat}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="flex justify-center gap-6 mt-8 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-gray-300 border border-gray-400"></div> Available
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-orange-300 border border-orange-400"></div> Selected
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-gray-500 border border-gray-700"></div> Booked
+            </div>
+          </div>
+
+          {selectedSeats.length > 0 && (
+            <div className="mt-6 text-center">
+              <h2 className="text-lg font-semibold">You selected:</h2>
+              <p className="mt-1 text-orange-600">{selectedSeats.join(", ")}</p>
+            </div>
+          )}
+        </div>
+        <button
                 onClick={handleConfirmBooking}
-                className="w-full py-2 text-white bg-[#CE1B19] hover:bg-[#FF6A13] rounded-lg shadow-md transition-all duration-300"
+                className="w-full py-2 bg-[#CE1B19] text-white rounded hover:bg-[#FF6A13]"
               >
                 Confirm Booking
               </button>
-              <button
-                onClick={handleReserve}
-                className="w-full py-2 text-[#CE1B19] bg-transparent border-2 border-[#CE1B19] hover:bg-[#CE1B19] hover:text-white rounded-lg shadow-md transition-all duration-300"
-              >
-                Reserve
-              </button>
-              <button
-                onClick={handleAddToWishlist}
-                className="w-full py-2 text-[#CE1B19] bg-transparent border-2 border-[#CE1B19] hover:bg-[#CE1B19] hover:text-white rounded-lg shadow-md transition-all duration-300"
-              >
-                {wishlistAdded ? 'Added to Wishlist' : 'Add to Wishlist'}
-              </button>
-            </div>
-          </div>
+        {/* Bill Section */}
+        {showBill && (
+  <div ref={billRef} className="container mx-auto px-6 py-12">
+    <div className="bg-white p-8 rounded-lg shadow-xl border border-gray-300 max-w-2xl mx-auto">
+      <h2 className="text-3xl font-bold text-center text-[#CE1B19] mb-6 uppercase">Booking Receipt</h2>
+
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <p className="text-gray-700 text-sm">Receipt ID:</p>
+          <p className="font-semibold text-sm">{qrId}</p>
         </div>
+        <img
+          src={`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrId)}&size=100x100`}
+          alt="QR Code"
+          className="w-24 h-24"
+        />
       </div>
 
-      {/* Bill */}
-      {showBill && (
-        <div ref={billRef} className="container mx-auto px-6 py-12">
-          <div className="bg-white p-8 rounded-lg shadow-xl border border-gray-300">
-            <h1 className="text-3xl font-bold text-center text-[#CE1B19] mb-8">Ticket Booking Bill </h1>
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="flex flex-col">
-                <span className="text-gray-700 font-medium">Event:</span>
-                <span className="text-gray-600">{event.title}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-gray-700 font-medium">Date:</span>
-                <span className="text-gray-600">{event.date}</span>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="flex flex-col">
-                <span className="text-gray-700 font-medium">Location:</span>
-                <span className="text-gray-600">{event.location}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-gray-700 font-medium">Tickets:</span>
-                <span className="text-gray-600">{tickets}</span>
-              </div>
-            </div>
-            <div className="flex justify-between mb-6">
-              <span className="text-gray-700 font-medium">Total Price:</span>
-              <span className="text-gray-600">${totalPrice}</span>
-            </div>
-            <div className="border-t border-gray-300 pt-4 mt-6">
-              <div className="flex justify-between">
-                <span className="text-gray-700 font-medium">Payment Method:</span>
-                <span className="text-gray-600">{paymentMethod}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-700 font-medium">Status:</span>
-                <span className="text-gray-600">{bookingStatus}</span>
-              </div>
-              <div className="flex justify-end">
-                <span className="text-gray-600">(Show this at the entrance of the venue)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <hr className="mb-4" />
+
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-700 mb-2">Event Information</h3>
+        <p><strong>Event:</strong> {event.title}</p>
+        <p><strong>Date:</strong> {event.date}</p>
+        <p><strong>Location:</strong> {event.location}</p>
+      </div>
+
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-700 mb-2">Booking Summary</h3>
+        <table className="w-full text-left text-sm">
+          <tbody>
+            <tr className="border-b">
+              <td className="py-2 font-medium text-gray-600">Number of Tickets</td>
+              <td className="py-2">{tickets}</td>
+            </tr>
+            <tr className="border-b">
+              <td className="py-2 font-medium text-gray-600">Seats Booked</td>
+              <td className="py-2">{selectedSeats.join(", ")}</td>
+            </tr>
+            <tr className="border-b">
+              <td className="py-2 font-medium text-gray-600">Total Price</td>
+              <td className="py-2">${totalPrice}</td>
+            </tr>
+            <tr className="border-b">
+              <td className="py-2 font-medium text-gray-600">Payment Method</td>
+              <td className="py-2">{paymentMethod}</td>
+            </tr>
+            <tr>
+              <td className="py-2 font-medium text-gray-600">Booking Status</td>
+              <td className="py-2 text-green-600 font-semibold">{bookingStatus}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p className="text-sm text-gray-500 text-center">
+        Please present this receipt with the QR code at the entrance. Enjoy the event!
+      </p>
+    </div>
+  </div>
+)}
+
+      </div>
     </div>
   );
 };

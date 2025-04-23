@@ -11,6 +11,13 @@ import Book from './pages/Book';
 import PromoCode from './pages/PromoCode'; 
 import Wishlist from './pages/Wishlist'; 
 import Bookings from './pages/MyBookings';
+import Verify from './pages/Verify';
+import Analytics from './pages/Analytics';
+import EventManagement from './pages/EventManagement';
+import SeatManagement from './pages/SeatManagement';
+import UserManagement from './pages/UserManagement';
+import BookingManagement from './pages/BookingManagement';
+import PaymentTracking from './pages/PaymentManagement';
 
 
 function App() {
@@ -32,6 +39,13 @@ function App() {
           <Route path="/promos" element={<PromoCode />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/bookings" element={<Bookings />} />
+          <Route path="/Verify" element={<Verify />} />
+          <Route path="/Analytics" element={<Analytics />} />
+          <Route path="/event-management" element={<EventManagement />} />
+          <Route path="/seat-management" element={<SeatManagement />} />
+          <Route path="/user-management" element={<UserManagement />} />
+          <Route path="/booking-management" element={<BookingManagement />} />
+          <Route path="/payment-tracking" element={<PaymentTracking />} />
         </Routes>
         <Footer />
       </div>

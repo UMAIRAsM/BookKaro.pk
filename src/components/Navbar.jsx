@@ -29,7 +29,7 @@ const Navbar = ({ setIsSignup }) => {
     <nav className="fixed top-0 left-0 w-full bg-[#FFA515] shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between relative">
         <Link to="/" className="flex items-center space-x-2">
-          <div className="absolute top-0 left-0 bottom-0 bg-amber-50 rounded-br-[40px] p-1 flex items-center">
+          <div className="absolute top-0 left-0 bottom-0 bg-amber-50 rounded-br-[40px] p-1 flex items-center pr-3 pl-3">
             <img src={logo} alt="BookKaroPK" className="h-10 w-auto" />
           </div>
         </Link>
@@ -115,6 +115,24 @@ const Navbar = ({ setIsSignup }) => {
               My Bookings
             </Link>
           </li>
+          <Link 
+            to="/Verify" 
+            onClick={() => handleLinkClick('Verify')} 
+            className={`${baseLinkClasses} ${activeLink === 'Verify' ? activeLinkClasses : ''} block`}
+          >
+            Verify
+          </Link>
+
+          <li>
+            <Link 
+              to="/Analytics" 
+              onClick={() => handleLinkClick('Analytics')}
+              className={`${baseLinkClasses} ${activeLink === 'Analytics' ? activeLinkClasses : ''}`}
+            >
+              Analysis
+            </Link>
+          </li>
+
         </ul>
 
         <div className="hidden lg:block ml-4 flex items-center space-x-2">
@@ -208,6 +226,24 @@ const Navbar = ({ setIsSignup }) => {
           >
             My Bookings
           </Link>
+
+          <Link 
+            to="/Verify" 
+            onClick={() => handleLinkClick('Verify')} 
+            className={`${baseLinkClasses} ${activeLink === 'Verify' ? activeLinkClasses : ''} block`}
+          >
+            Verify
+          </Link>
+
+          
+            <Link 
+              to="/Analytics" 
+              onClick={() => handleLinkClick('Analytics')}
+              className={`${baseLinkClasses} ${activeLink === 'Analytics' ? activeLinkClasses : ''}block`}
+            >
+              Analysis
+            </Link>
+          
 
           <Link 
             to="/auth" 
