@@ -9,7 +9,7 @@ const PromoCode = () => {
     DISCOUNT10: 10,
     DISCOUNT20: 20,
     WELCOME15: 15,
-    FREESHIP: 0, // A special code for free shipping, no discount percentage
+    FREESHIP: 0, 
   };
 
   const handlePromoCodeChange = (e) => {
@@ -17,7 +17,7 @@ const PromoCode = () => {
   };
 
   const applyPromoCode = () => {
-    // Check if the entered promo code is valid
+    // validation
     if (promoCodes[promoCode]) {
       setDiscount(promoCodes[promoCode]);
       setIsValid(true);
@@ -29,18 +29,19 @@ const PromoCode = () => {
 
   return (
     <div className="container mx-auto p-8 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-[#CE1B19] mb-4">Apply Promo Code</h1>
-      <div className="flex items-center mb-6">
+      <h1 className="text-2xl font-bold text-[#CE1B19] mb-4 text-center sm:text-left">Apply Promo Code</h1>
+      
+      <div className="flex flex-col sm:flex-row items-center mb-6">
         <input
           type="text"
           value={promoCode}
           onChange={handlePromoCodeChange}
-          className="w-64 p-2 border border-gray-300 rounded-lg"
+          className="w-full sm:w-64 p-2 border border-gray-300  mb-4 sm:mb-0"
           placeholder="Enter promo code"
         />
         <button
           onClick={applyPromoCode}
-          className="ml-4 py-2 px-6 text-white bg-[#CE1B19] hover:bg-[#FF6A13] rounded-lg"
+          className="w-full sm:w-auto py-2 px-6 text-white bg-[#CE1B19] hover:bg-[#FF6A13] "
         >
           Apply
         </button>

@@ -29,22 +29,24 @@ const Wishlist = () => {
 
   return (
     <div className="container mx-auto p-8 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-[#CE1B19] mb-4">My Wishlist</h1>
+      <h1 className="text-2xl font-bold text-[#CE1B19] mb-4 text-center sm:text-left">
+        My Wishlist
+      </h1>
 
       {wishlist.length > 0 ? (
         <ul>
           {wishlist.map((event) => (
             <li
               key={event.id}
-              className="flex justify-between items-center mb-6 p-4 bg-gray-100 rounded-lg shadow-sm"
+              className="flex flex-col sm:flex-row justify-between items-center mb-6 p-4 bg-gray-100 rounded-lg shadow-sm"
             >
-              <div>
+              <div className="mb-4 sm:mb-0">
                 <h2 className="text-xl font-semibold text-[#CE1B19]">{event.title}</h2>
                 <p className="text-gray-700">{event.date}</p>
                 <p className="text-gray-700">{event.location}</p>
               </div>
 
-              <div className="flex space-x-4">
+              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <Link
                   to={`/book/${event.id}`}
                   className="py-2 px-6 text-white bg-[#CE1B19] hover:bg-[#FF6A13] rounded-lg"
@@ -62,7 +64,7 @@ const Wishlist = () => {
           ))}
         </ul>
       ) : (
-        <p className="text-lg text-gray-600">Your wishlist is empty.</p>
+        <p className="text-lg text-gray-600 text-center sm:text-left">Your wishlist is empty.</p>
       )}
     </div>
   );
